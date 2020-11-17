@@ -1,0 +1,32 @@
+version: "2"
+services:
+  photo-gallery-api:
+    container_name: photo-gallery-api
+    build: .
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+      - pigallery2
+    volumes:
+      - ./photo-uploads:/usr/src/app/uploads
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./photo-gallery-data:/data/db
+  pigallery2:
+    image: bpatrik/pigallery2:latest
+    container_name: pigallery2
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./pigallery2/config:/app/data/config
+      - ./pigallery2-data:/app/data/db
+      - ./photo-uploads:/app/data/images
+      - ./pigallery2/tmp:/app/data/tmp
+    ports:
+      - 80:80
+    restart: always
