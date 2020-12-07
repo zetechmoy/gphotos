@@ -8,6 +8,12 @@ services:
     depends_on:
       - mongo
       - pigallery2
+    environment:
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=admin
+      - UPLOAD_PATH=uploads/
+      - ENV=production
+      - MONGO_URI=mongodb://mongo:27017
     volumes:
       - ./photo-uploads:/usr/src/app/uploads
   mongo:
